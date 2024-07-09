@@ -1,5 +1,6 @@
 package net.gabon_guy.tutorialmod.networking.packet;
 
+import net.gabon_guy.tutorialmod.networking.ModMessages;
 import net.gabon_guy.tutorialmod.thirst.PlayerThirstProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
@@ -50,6 +51,7 @@ public class DrinkWaterC2SPacket {
                     thirst.addThirst(1);
                     player.sendSystemMessage(Component.literal("Current Thirst " + thirst.getThirst())
                             .withStyle(ChatFormatting.AQUA));
+                    ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()), player);
                 });
 
                 // Output the current thirst level
@@ -61,6 +63,7 @@ public class DrinkWaterC2SPacket {
                 player.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
                     player.sendSystemMessage(Component.literal("Current Thirst " + thirst.getThirst())
                             .withStyle(ChatFormatting.AQUA));
+                    ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()), player);
                 });
             }
         });
